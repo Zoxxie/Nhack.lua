@@ -59,7 +59,7 @@ if (not LPH_OBFUSCATED) then
   local Window = Library:Window({Name = 'NHOOK.lua', Logo = '109684781523655'})
   local Watermark = Window:Watermark("NHOOK.lua")
   local KeybindList = Window:KeybindList()
-  local InventoryViewer = Window:InventoryViewer()
+  local InventoryViewer = Window.InventoryViewer and Window:InventoryViewer() or nil
   
   local CombatPage = Window:Page({Name = 'Combat'})
   local VisualsPage = Window:Page({Name = 'Visuals'})

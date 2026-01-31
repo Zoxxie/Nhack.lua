@@ -59,7 +59,7 @@ if (not LPH_OBFUSCATED) then
   local Window = Library:Window({Name = 'NHOOK.lua', Logo = '109684781523655'})
   local Watermark = Window:Watermark("NHOOK.lua")
   local KeybindList = Window:KeybindList()
-  -- local InventoryViewer = Window.InventoryViewer and Window:InventoryViewer() or nil
+  local InventoryViewer = nil -- Window:InventoryViewer() does not exist in this UI library
   
   local CombatPage = Window:Page({Name = 'Combat'})
   local VisualsPage = Window:Page({Name = 'Visuals'})
@@ -139,13 +139,7 @@ if (not LPH_OBFUSCATED) then
       do
           --// Main
           do
-              local success, result = pcall(function()
-                  return CombatPage:Section({Name = "Aimbot", Side = 1})
-              end)
-              if not success then
-                  error("Failed to create AimbotSection: " .. tostring(result) .. " | CombatPage type: " .. type(CombatPage) .. " | Has Section: " .. tostring(CombatPage and CombatPage.Section ~= nil))
-              end
-              local AimbotSection = result
+              local AimbotSection = CombatPage:Section({Name = "Aimbot", Side = 1, Fill = 0.5})
   
               AimbotSection:Toggle({Name = "Enabled", Flag = "AimbotEnabled", Default = false})
   
@@ -1671,7 +1665,9 @@ if (not LPH_OBFUSCATED) then
   
           local lastarmor = ''
           RunService.RenderStepped:Connect(function()
-              InventoryViewer:SetVisibility(flags.ArmorBarEnabled and Targeting.TargetCharacter)
+              if InventoryViewer then
+                  InventoryViewer:SetVisibility(flags.ArmorBarEnabled and Targeting.TargetCharacter)
+              end
               if not flags.ArmorBarEnabled then return end
               local character = Targeting.TargetCharacter
               if not character then return end
@@ -1679,8 +1675,10 @@ if (not LPH_OBFUSCATED) then
               local armorhash = HttpService:JSONEncode(armorData)
               if armorhash ~= lastarmor then
                   lastarmor = armorhash
-                  InventoryViewer:ClearAllItems()
-                  InventoryViewer:SetTitle(`{character.Name}'s inventory`)
+                  if InventoryViewer then
+                      InventoryViewer:ClearAllItems()
+                      InventoryViewer:SetTitle(`{character.Name}'s inventory`)
+                  end
                   for i, armor in ipairs(armorData) do
                       local imageUrl = ''
                       if armor.Image and tonumber(armor.Image) then
@@ -1691,7 +1689,9 @@ if (not LPH_OBFUSCATED) then
                           imageUrl = GunTable[armor.Name]['Default']
                       end
   
-                      InventoryViewer:Add(armor.Name, imageUrl)
+                      if InventoryViewer then
+                          InventoryViewer:Add(armor.Name, imageUrl)
+                      end
                   end
               end
           end)

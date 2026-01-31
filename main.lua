@@ -139,7 +139,7 @@ if (not LPH_OBFUSCATED) then
       do
           --// Main
           do
-              local Silent AimSection = CombatPage:Section({Name = "Aimbot", Side = 1, Fill = 0.5})
+              local AimbotSection = CombatPage:Section({Name = "Aimbot", Side = 1, Fill = 0.5})
   
               AimbotSection:Toggle({Name = "Enabled", Flag = "AimbotEnabled", Default = false})
   

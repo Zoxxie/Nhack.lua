@@ -59,12 +59,12 @@ if (not LPH_OBFUSCATED) then
   local Window = Library:Window({Name = 'NHOOK.lua', Logo = '109684781523655'})
   local Watermark = Window:Watermark("NHOOK.lua")
   local KeybindList = Window:KeybindList()
-  local InventoryViewer = Window.InventoryViewer and Window:InventoryViewer() or nil
+  -- local InventoryViewer = Window.InventoryViewer and Window:InventoryViewer() or nil
   
   local CombatPage = Window:Page({Name = 'Combat'})
   local VisualsPage = Window:Page({Name = 'Visuals'})
   local MiscPage = Window:Page({Name = 'Misc'})
-  local SettingsPage = Library:CreateSettingsPage(Window, KeybindList, Watermark, nil, InventoryViewer)
+  local SettingsPage = Library:CreateSettingsPage(Window, KeybindList, Watermark, nil, nil)
   
   local Debris, Players, Workspace, GuiService, RunService, UserInputService, ReplicatedStorage, Lighting, HttpService = game:GetService('Debris'), game:GetService('Players'), game:GetService('Workspace'), game:GetService('GuiService'), game:GetService('RunService'), game:GetService('UserInputService'), game:GetService('ReplicatedStorage'), game:GetService('Lighting'), game:GetService('HttpService')
   

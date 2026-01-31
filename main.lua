@@ -64,7 +64,7 @@ if (not LPH_OBFUSCATED) then
   local CombatPage = Window:Page({Name = 'Combat'})
   local VisualsPage = Window:Page({Name = 'Visuals'})
   local MiscPage = Window:Page({Name = 'Misc'})
-  local SettingsPage = Library:CreateSettingsPage(Window, KeybindList, Watermark, nil, nil)
+  local SettingsPage = Library:CreateSettingsPage(Window, KeybindList, Watermark, nil)
   
   local Debris, Players, Workspace, GuiService, RunService, UserInputService, ReplicatedStorage, Lighting, HttpService = game:GetService('Debris'), game:GetService('Players'), game:GetService('Workspace'), game:GetService('GuiService'), game:GetService('RunService'), game:GetService('UserInputService'), game:GetService('ReplicatedStorage'), game:GetService('Lighting'), game:GetService('HttpService')
   
@@ -139,7 +139,13 @@ if (not LPH_OBFUSCATED) then
       do
           --// Main
           do
-              local AimbotSection = CombatPage:Section({Name = "Aimbot", Side = 1})
+              local success, result = pcall(function()
+                  return CombatPage:Section({Name = "Aimbot", Side = 1})
+              end)
+              if not success then
+                  error("Failed to create AimbotSection: " .. tostring(result) .. " | CombatPage type: " .. type(CombatPage) .. " | Has Section: " .. tostring(CombatPage and CombatPage.Section ~= nil))
+              end
+              local AimbotSection = result
   
               AimbotSection:Toggle({Name = "Enabled", Flag = "AimbotEnabled", Default = false})
   

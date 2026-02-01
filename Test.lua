@@ -843,7 +843,7 @@ if (not LPH_OBFUSCATED) then
                   Name = "Teleport Key",
                   Flag = "TeleportActivation",
                   Mode = "Toggle",
-                  Default = Enum.KeyCode.G
+                  Default = Enum.KeyCode.H
               })
 
               ExploitsSection:Toggle({
@@ -3055,7 +3055,7 @@ if (not LPH_OBFUSCATED) then
       UserInputService.InputBegan:Connect(function(input, gameProcessed)
           if gameProcessed then return end
           
-          if flags.TeleportActivation and input.KeyCode == Enum.KeyCode[flags.TeleportActivation.Key or "G"] then
+          if flags.TeleportActivation and input.KeyCode == Enum.KeyCode[flags.TeleportActivation.Key or "H"] then
               if not flags.ShootOnTP then return end
               if not (flags.TeleportActivation and flags.TeleportActivation.Toggled) then return end
               

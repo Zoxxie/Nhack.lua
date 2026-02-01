@@ -3055,9 +3055,8 @@ if (not LPH_OBFUSCATED) then
       UserInputService.InputBegan:Connect(function(input, gameProcessed)
           if gameProcessed then return end
           
-          if flags.TeleportActivation and input.KeyCode == Enum.KeyCode[flags.TeleportActivation.Key or "H"] then
+          if flags.TeleportActivation and flags.TeleportActivation.Toggled and input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == flags.TeleportActivation.Value then
               if not flags.ShootOnTP then return end
-              if not (flags.TeleportActivation and flags.TeleportActivation.Toggled) then return end
               
               local Target = Targeting.TargetPart
               if not Target then return end

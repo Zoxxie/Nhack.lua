@@ -158,7 +158,7 @@ if (not LPH_OBFUSCATED) then
                   Flag = "ManipulationIndicatorColor",
                   Default = Color3.fromRGB(0, 0, 0),
               })
-              AimbotSection:Toggle({Name = "Target Teammates", Flag = "TargetTeammates", Default = true})
+              AimbotSection:Toggle({Name = "Target Teammates", Flag = "TargetTeammates", Default = false})
   
               AimbotSection:Toggle({Name = "Visible Check", Flag = "VisibleCheck"}):Colorpicker({
                   Name = "Visible Color",
@@ -166,9 +166,9 @@ if (not LPH_OBFUSCATED) then
                   Default = Color3.fromRGB(0, 0, 0),
               })
   
-              AimbotSection:Toggle({Name = "Down Check", Flag = "DownCheck", Default = true})
+              AimbotSection:Toggle({Name = "Down Check", Flag = "DownCheck", Default = false})
               AimbotSection:Toggle({Name = "Armor Bar", Flag = "ArmorBarEnabled"})
-              AimbotSection:Toggle({Name = "Flags", Flag = "CombatIndicators", Default = true})
+              AimbotSection:Toggle({Name = "Flags", Flag = "CombatIndicators", Default = false})
   
               AimbotSection:Dropdown({
                   Name = "Target Parts",
@@ -596,26 +596,6 @@ if (not LPH_OBFUSCATED) then
                   Decimals = 1,
               })
 
-              --// Third Person
-              MiscVisualsSection:Toggle({
-                  Name = "Third Person",
-                  Flag = "ThirdPerson",
-              }):Keybind({
-                  Name = "Third Person Key",
-                  Flag = "ThirdPersonActivation",
-                  Mode = "Toggle",
-                  Default = "B"
-              })
-
-              MiscVisualsSection:Slider({
-                  Name = "Third Person Distance",
-                  Flag = "ThirdPersonDistance",
-                  Min = 0,
-                  Max = 20,
-                  Default = 10,
-                  Decimals = 0.1,
-              })
-
               --// FOV Changer
               MiscVisualsSection:Toggle({
                   Name = "FOV Changer",
@@ -863,13 +843,13 @@ if (not LPH_OBFUSCATED) then
                   Name = "Teleport Key",
                   Flag = "TeleportActivation",
                   Mode = "Toggle",
-                  Default = "G"
+                  Default = Enum.KeyCode.G
               })
 
               ExploitsSection:Toggle({
                   Name = "Disable Silent While TP",
                   Flag = "DisableSilentWhileTP",
-                  Default = true
+                  Default = false
               })
           end
       end
@@ -2964,47 +2944,6 @@ if (not LPH_OBFUSCATED) then
           return CreateProjectile(self, unpack(Args));
       end);
       
-      --// Third Person Implementation
-      do
-          local ThirdPersonConnection
-          RunService.RenderStepped:Connect(function()
-              local ThirdPerson = flags.ThirdPerson and flags.ThirdPersonActivation and flags.ThirdPersonActivation.Toggled
-              if ThirdPerson then
-                  local ThirdPersonDistance = flags.ThirdPersonDistance or 10
-                  Client.CameraMaxZoomDistance = ThirdPersonDistance
-                  Client.CameraMinZoomDistance = ThirdPersonDistance
-                  
-                  -- Hide viewmodel
-                  local Viewmodel = workspace.VFX and workspace.VFX.VMs and workspace.VFX.VMs:GetChildren()[1]
-                  if Viewmodel then
-                      for _, Part in Viewmodel:GetDescendants() do
-                          if Part:IsA("BasePart") then
-                              if not Part:GetAttribute("OriginalTransparency") and Part.Transparency ~= 1 then
-                                  Part:SetAttribute("OriginalTransparency", Part.Transparency)
-                              end
-                              Part.Transparency = 1
-                          end
-                      end
-                  end
-              else
-                  Client.CameraMaxZoomDistance = 10
-                  Client.CameraMinZoomDistance = 0.5
-                  
-                  -- Restore viewmodel
-                  local Viewmodel = workspace.VFX and workspace.VFX.VMs and workspace.VFX.VMs:GetChildren()[1]
-                  if Viewmodel then
-                      for _, Part in Viewmodel:GetDescendants() do
-                          if Part:IsA("BasePart") then
-                              local OriginalTransparency = Part:GetAttribute("OriginalTransparency")
-                              if OriginalTransparency then
-                                  Part.Transparency = OriginalTransparency
-                              end
-                          end
-                      end
-                  end
-              end
-          end)
-      end
 
       --// FOV Changer Implementation
       RunService.RenderStepped:Connect(function()
